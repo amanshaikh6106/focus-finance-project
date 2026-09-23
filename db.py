@@ -1,13 +1,15 @@
 import mysql.connector
 from mysql.connector import Error
 
-DB_CONFIG = {
-    "host": "localhost",
-    "user": "Aman",
-    "password": "Aman@6106",
-    "database": "focusfinance6106"
-}
+import os
 
+DB_CONFIG = {
+    "host": os.getenv("MYSQLHOST", "localhost"),
+    "user": os.getenv("MYSQLUSER", "Aman"),
+    "password": os.getenv("MYSQLPASSWORD", "YOUR_LOCAL_MYSQL_PASSWORD"),
+    "database": os.getenv("MYSQLDATABASE", "focusfinance6106"),
+    "port": int(os.getenv("MYSQLPORT", "3306"))
+}
 
 def get_db_connection():
     """
