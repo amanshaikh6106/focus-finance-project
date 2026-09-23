@@ -1,25 +1,16 @@
 import mysql.connector
 from mysql.connector import Error
 import os
-from urllib.parse import urlparse, unquote
 
 
 def get_db_connection():
     try:
-        db_url = os.getenv("MYSQL_PRIVATE_URL")
-
-        if not db_url:
-            print("[DB ERROR] MYSQL_PRIVATE_URL is not set")
-            return None
-
-        parsed = urlparse(db_url)
-
         connection = mysql.connector.connect(
-            host=parsed.hostname,
-            port=parsed.port or 3306,
-            user=unquote(parsed.username),
-            password=unquote(parsed.password),
-            database=parsed.path.lstrip("/")
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQLDATABASE"),
+            port=int(os.getenv("MYSQLPORT", "3306"))
         )
 
         return connection
