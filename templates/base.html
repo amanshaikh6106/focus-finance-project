@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}FocusFinance{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{{ url_for('root') }}" class="nav-logo">Focus<span>Finance</span></a>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{{ url_for('root') }}" class="{{ 'active' if request.endpoint in ['root', 'index'] }}">Home</a></li>
+            <li><a href="{{ url_for('eligibility') }}" class="{{ 'active' if request.endpoint == 'eligibility' }}">Eligibility</a></li>
+            <li><a href="{{ url_for('apply') }}" class="{{ 'active' if request.endpoint == 'apply' }}">Apply Loan</a></li>
+ {% if not session.get('is_admin') %}
+    <li><a href="{{ url_for('my_loan_status') }}" class="{{ 'active' if request.endpoint == 'my_loan_status' }}">My Loan Status</a></li>
+{% endif %}
+            <li><a href="{{ url_for('contact') }}" class="{{ 'active' if request.endpoint == 'contact' }}">Contact</a></li>
+
+            {% if session.get('user_id') %}
+                {% if session.get('is_admin') %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' }}">Admin Panel</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('profile') }}" class="nav-user {{ 'active' if request.endpoint == 'profile' }}">👋 {{ session.get('full_name') }}</a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+                <li>
+    <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark mode">🌙</button>
+</li>
+
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="{{ 'active' if request.endpoint == 'login' }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}" class="btn-logout">Sign Up</a></li>
+            {% endif %}
+        </ul>
+
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<div class="flash-container" id="flashContainer">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">
+                    <span>{{ message }}</span>
+                    <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">Focus<span>Finance</span></div>
+        <p>&copy; 2026 FocusFinance. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

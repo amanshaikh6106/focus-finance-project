@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - FocusFinance{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>View all registered users and form submissions across the platform.</p>
+</section>
+
+<section class="admin-section">
+
+    <div class="admin-summary">
+        <div class="admin-stat-card">
+            <h3>{{ users|length }}</h3>
+            <p>Registered Users</p>
+        </div>
+        <div class="admin-stat-card">
+            <h3>{{ eligibility_records|length }}</h3>
+            <p>Eligibility Checks</p>
+        </div>
+        <div class="admin-stat-card">
+            <h3>{{ applications|length }}</h3>
+            <p>Loan Applications</p>
+        </div>
+        <div class="admin-stat-card">
+            <h3>{{ contacts|length }}</h3>
+            <p>Contact Messages</p>
+        </div>
+    </div>
+
+    
+    <div class="admin-table-block">
+        <h2>👤 Registered Users (Signup / Login Activity)</h2>
+        <div class="table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Role</th>
+                        <th>Last Login</th>
+                        <th>Signed Up On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td>{{ "Admin" if user.is_admin else "User" }}</td>
+                        <td>{{ user.last_login if user.last_login else "Never" }}</td>
+                        <td>{{ user.created_at }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="8" class="no-data">No users found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <div class="admin-table-block">
+        <h2>📊 Eligibility Check Submissions</h2>
+        <div class="table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Age</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>Employment</th>
+                        <th>Income</th>
+                        <th>Credit Score</th>
+                        <th>Loan Type</th>
+                        <th>Loan Amount</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in eligibility_records %}
+                    <tr>
+                        <td>{{ rec.id }}</td>
+                        <td>{{ rec.user_id }}</td>
+                        <td>{{ rec.full_name }}</td>
+                        <td>{{ rec.age }}</td>
+                        <td>{{ rec.mobile }}</td>
+                        <td>{{ rec.email }}</td>
+                        <td>{{ rec.employment_type }}</td>
+                        <td>₹{{ rec.monthly_income }}</td>
+                        <td>{{ rec.credit_score }}</td>
+                        <td>{{ rec.loan_type }}</td>
+                        <td>₹{{ rec.loan_amount }}</td>
+                        <td>
+                            <span class="badge {{ 'badge-green' if rec.result == 'Eligible' else 'badge-red' }}">
+                                {{ rec.result }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="12" class="no-data">No eligibility records found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <div class="admin-table-block">
+        <h2>📝 Loan Applications</h2>
+        <div class="table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Occupation</th>
+                        <th>Income</th>
+                        <th>Loan Type</th>
+                        <th>Loan Amount</th>
+                        <th>Tenure</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app.id }}</td>
+                        <td>{{ app.user_id }}</td>
+                        <td>{{ app.full_name }}</td>
+                        <td>{{ app.email }}</td>
+                        <td>{{ app.mobile }}</td>
+                        <td>{{ app.city }}</td>
+                        <td>{{ app.state }}</td>
+                        <td>{{ app.occupation }}</td>
+                        <td>₹{{ app.monthly_income }}</td>
+                        <td>{{ app.loan_type }}</td>
+                        <td>₹{{ app.loan_amount }}</td>
+                        <td>{{ app.loan_tenure }} mo</td>
+                        <td>
+                            <span class="badge
+                                {% if app.status == 'Approved' %}badge-green
+                                {% elif app.status == 'Rejected' %}badge-red
+                                {% else %}badge-yellow{% endif %}">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="admin-action-buttons">
+                                <form method="POST" action="{{ url_for('admin_update_status', application_id=app.id) }}">
+                                    <input type="hidden" name="status" value="Approved">
+                                    <button type="submit" class="btn-action btn-approve">Approve</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('admin_update_status', application_id=app.id) }}">
+                                    <input type="hidden" name="status" value="Rejected">
+                                    <button type="submit" class="btn-action btn-reject">Reject</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="14" class="no-data">No loan applications found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ================= CONTACT MESSAGES TABLE ================= -->
+    <div class="admin-table-block">
+        <h2>✉️ Contact Messages</h2>
+        <div class="table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in contacts %}
+                    <tr>
+                        <td>{{ msg.id }}</td>
+                        <td>{{ msg.user_id }}</td>
+                        <td>{{ msg.name }}</td>
+                        <td>{{ msg.email }}</td>
+                        <td>{{ msg.subject }}</td>
+                        <td>{{ msg.message }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="no-data">No contact messages found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

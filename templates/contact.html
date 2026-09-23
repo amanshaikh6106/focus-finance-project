@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Contact Us - FocusFinance{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Contact Us</h1>
+    <p>We Will love to hear from you. Reach out with any questions.</p>
+</section>
+
+<section class="contact-section">
+    <div class="contact-info">
+        <div class="contact-item">
+            <div class="contact-icon">🏢</div>
+            <div>
+                <h4>Company Name</h4>
+                <p>FocusFinance Pvt. Ltd.</p>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+                <h4>Address</h4>
+                <p>3rd Floor, Finance Tower, MG Road, Ahilyanagar, Maharashtra, India - 414001</p>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+                <h4>Email</h4>
+                <p>support@focusfinance.com</p>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+                <h4>Phone Number</h4>
+                <p>+91 98765 43210</p>
+            </div>
+        </div>
+
+        <div class="contact-form-card">
+        <h3>Send Us a Message</h3>
+        <form method="POST" action="{{ url_for('contact') }}" id="contactForm">
+            <div class="form-group">
+                <label for="c_name">Your Name</label>
+                <input type="text" id="c_name" name="c_name" required>
+            </div>
+            <div class="form-group">
+                <label for="c_email">Your Email</label>
+                <input type="email" id="c_email" name="c_email" required>
+            </div>
+            <div class="form-group">
+                <label for="c_subject">Subject</label>
+                <input type="text" id="c_subject" name="c_subject" required>
+            </div>
+            <div class="form-group">
+                <label for="c_message">Message</label>
+                <textarea id="c_message" name="c_message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<section class="section-container" style="max-width: 850px; padding-top: 10px;">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-subtitle">Quick answers to common questions about our loan services</p>
+
+    <div class="faq-list">
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What documents do I need to apply for a loan?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Typically you'll need identity proof (Aadhaar/PAN), address proof, income
+                proof (salary slips or IT returns), and bank statements for the last 3-6 months.
+                Exact requirements vary by loan type.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How is my loan eligibility calculated?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Eligibility is based on your age, monthly income, credit score, existing EMI
+                obligations, and monthly savings. You can check your eligibility instantly using
+                our Eligibility Checker before applying.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                What credit score do I need?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>We generally require a minimum credit score of 650. A higher score improves
+                your chances of approval and may help you get better interest rates.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How long does loan approval take?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Once you submit your application, our team typically reviews it within a
+                few business days. You can track your application status by logging into your account.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                How is my monthly EMI calculated?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Your EMI is calculated using the loan amount, tenure, and the standard
+                interest rate for your chosen loan type. You'll see an instant EMI estimate
+                right after submitting your loan application.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Can I apply for more than one loan type?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, you can submit separate applications for different loan types
+                (e.g. a Vehicle Loan and a Personal Loan) using the Apply Loan page.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                Is my personal information secure?
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes. Your password is securely hashed and never stored in plain text, and
+                your account is protected behind a login system. Your data is only visible
+                to you and authorized administrators.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.faq-question').forEach(function (button) {
+    button.addEventListener('click', function () {
+        const item = this.parentElement;
+        const isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item').forEach(function (el) {
+            el.classList.remove('open');
+        });
+
+        if (!isOpen) {
+            item.classList.add('open');
+        }
+    });
+});
+</script>
+{% endblock %}

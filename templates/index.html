@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Home - FocusFinance{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Your Trusted Partner for <span>Smarter Loans</span></h1>
+        <p>Check your eligibility instantly, apply for loans online, and get expert guidance — all from one simple dashboard.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('eligibility') }}" class="btn btn-primary">Check Eligibility</a>
+            <a href="{{ url_for('apply') }}" class="btn btn-outline">Apply for a Loan</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="hero-card-float card-1">📈 Instant Eligibility</div>
+        <div class="hero-card-float card-2">💰 Fast Approvals</div>
+        <div class="hero-card-float card-3">🔒 Secure & Private</div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="stat-item">
+        <h3>500+</h3>
+        <p>Loans Processed</p>
+    </div>
+    <div class="stat-item">
+        <h3>₹500Cr+</h3>
+        <p>Disbursed</p>
+    </div>
+    <div class="stat-item">
+        <h3>90%</h3>
+        <p>Customer Satisfaction</p>
+    </div>
+    <div class="stat-item">
+        <h3>24/7</h3>
+        <p>Support</p>
+    </div>
+</section>
+
+<section class="section-container">
+    <h2 class="section-title">Our Loan Services</h2>
+    <p class="section-subtitle">Explore the range of loans we offer, tailored to your needs</p>
+
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon">🏠</div>
+            <h3>Home Loan</h3>
+            <p>Turn your dream home into reality with flexible tenure and competitive interest rates.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🚗</div>
+            <h3>Vehicle Loan</h3>
+            <p>Drive home your favorite car or bike with quick approvals and minimal paperwork.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🎓</div>
+            <h3>Education Loan</h3>
+            <p>Invest in your future with education loans covering tuition, hostel, and books.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">💼</div>
+            <h3>Business Loan</h3>
+            <p>Fuel your business growth with working capital and expansion loans.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">💳</div>
+            <h3>Personal Loan</h3>
+            <p>Meet urgent personal expenses with quick, unsecured personal loans.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🌾</div>
+            <h3>Agriculture Loan</h3>
+            <p>Support your farming needs with easy agricultural credit facilities.</p>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

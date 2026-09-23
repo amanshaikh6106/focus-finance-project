@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}My Loan Status - FocusFinance{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>My Loan Status</h1>
+    <p>Track the approval status of your loan applications.</p>
+</section>
+
+<section class="admin-section">
+    <div class="admin-table-block">
+        <div class="table-scroll">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Applied On</th>
+                        <th>Loan Type</th>
+                        <th>Loan Amount</th>
+                        <th>Tenure</th>
+                        <th>City</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app.created_at }}</td>
+                        <td>{{ app.loan_type }}</td>
+                        <td>₹{{ app.loan_amount }}</td>
+                        <td>{{ app.loan_tenure }} mo</td>
+                        <td>{{ app.city }}</td>
+                        <td>
+                            <span class="badge
+                                {% if app.status == 'Approved' %}badge-green
+                                {% elif app.status == 'Rejected' %}badge-red
+                                {% else %}badge-yellow{% endif %}">
+                                {{ app.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="no-data">You haven't applied for a loan yet. <a href="{{ url_for('apply') }}">Apply now</a>.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
